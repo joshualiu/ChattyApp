@@ -4,14 +4,14 @@ import ChatBar from './ChatBar.jsx';
 
 class App extends Component {
   render() {
+    console.log("Rendering <App/>");
     return (
       <div>
-      <nav className="navbar">
-        <a href="/" className="navbar-brand">Chatty</a>
-      </nav>
-
-      <Message />
-      <ChatBar />
+        <nav className="navbar">
+          <a href="/" className="navbar-brand">Chatty</a>
+        </nav>
+        <Message />
+        <ChatBar />
       </div>
     );
   }
