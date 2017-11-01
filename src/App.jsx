@@ -33,17 +33,11 @@ class App extends Component {
   //   }
 
 
-  onMessageSaved = (msg) => {
-    console.log("message saved", msg);
-    console.log(this.state.messages);
-
-    this.socket.send(JSON.stringify(msg));
-    this.socket.onmessage = (event) => {
-      let newData = JSON.parse(event.data);
-      console.log('receive data', newData);
-      this.setState({messages: this.state.messages.concat(newData)}); 
-    }
-
+  onMessageSaved = (newmsg) => {
+    console.log("message saved", newmsg);
+    // console.log(this.state.messages);
+    let addUsername = {username: this.state.currentUser.name, content: newmsg}
+    this.socket.send(JSON.stringify(addUsername));
   }
 
 
@@ -56,6 +50,11 @@ class App extends Component {
       console.log("Connected to server");
     }
 
+    this.socket.onmessage = (event) => {
+      let newData = JSON.parse(event.data);
+      console.log('receive data', newData);
+      this.setState({messages: this.state.messages.concat(newData)}); 
+    }
 
     // setTimeout(() => {
     //   console.log("Simulating incoming message");
