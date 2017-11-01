@@ -5,7 +5,7 @@ import ChatBar from './ChatBar.jsx';
 class App extends Component {
 
   constructor(props) {
-    super(props);
+    super(props);    
     this.state = {
       currentUser: {name: "Josh"}, // optional. if currentUser is not defined, it means the user is Anonymous
       messages: [
@@ -41,17 +41,20 @@ class App extends Component {
     console.log("message saved", msg);
     const newMessages = this.state.messages.concat(msg);
     this.setState({messages: newMessages}); 
+    this.socket.send(JSON.stringify(msg));
     
   }
-  
+
+
   componentDidMount() {
     console.log("componentDidMount <App />");
-    let socket = new WebSocket("ws://localhost:3001", "protocolOne")
+    let socket = new WebSocket("ws://localhost:3001", "protocolOne"); 
+    this.socket = socket    
     socket.onopen = function(event) {
       console.log("Connected to server");
     }
 
-    this.socket = socket;
+
     // setTimeout(() => {
     //   console.log("Simulating incoming message");
     //   // Add a new message to the list of messages in the data store
@@ -65,3 +68,4 @@ class App extends Component {
 
 }
 export default App;
+
