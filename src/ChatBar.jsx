@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
-let i = 100;
 class ChatBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: '',
       username: '',
       content: ''
     }
@@ -15,14 +13,12 @@ class ChatBar extends Component {
     
     if(event.key == 'Enter'){
       // event.preventDefault(); 
-      i++;
       console.log('submit message enter press here!', event.target.value)
-      event.target.value="";
       this.props.onMessageSaved ({
-        id: i,
         username: "Josh",
         content: this.state.content
       })
+      event.target.value= null;      
     }
   }
 

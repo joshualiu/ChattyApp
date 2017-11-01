@@ -6,10 +6,10 @@ class MessageList extends Component {
     console.log("Rendering <MessageList/>");   
     // const messages = this.props.messages;
     const eachMessage = this.props.messages.map((item) => {
-      return <Message 
+      return (<Message 
         key={ item.id.toString() }
         username={ item.username }
-        content={ item.content }/>
+        content={ item.content }/>)
     });
     
 

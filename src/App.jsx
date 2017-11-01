@@ -3,25 +3,14 @@ import MessageList from './MessageList.jsx';
 import ChatBar from './ChatBar.jsx';
 
 class App extends Component {
-
   constructor(props) {
-    super(props);    
+    super(props);
     this.state = {
-      currentUser: {name: "Josh"}, // optional. if currentUser is not defined, it means the user is Anonymous
-      messages: [
-        {
-          id: 1,
-          username: "Bob",
-          content: "Has anyone seen my marbles?"
-        },
-        {
-          id: 2,
-          username: "Anonymous",
-          content: "No, I think you lost them. You lost your marbles Bob. You lost them for good."
-        }
-      ]
-    }
+      currentUser: {name: "Bob"},
+      messages: [] // messages coming from the server will be stored here as they arrive
+    };
   }
+
   
   render() {
     console.log("Rendering <App/>");
@@ -37,20 +26,33 @@ class App extends Component {
     );
   }
 
+  // updateMessageList = (msg) => {
+  //   console.log("updating msg list", msg)
+  //   const newMessages = this.state.messages.push(msg);
+  //     this.setState({messages: newMessages}); 
+  //   }
+
+
   onMessageSaved = (msg) => {
     console.log("message saved", msg);
-    const newMessages = this.state.messages.concat(msg);
-    this.setState({messages: newMessages}); 
+    console.log(this.state.messages);
+
     this.socket.send(JSON.stringify(msg));
-    
+    this.socket.onmessage = (event) => {
+      let newData = JSON.parse(event.data);
+      console.log('receive data', newData);
+      this.setState({messages: this.state.messages.concat(newData)}); 
+    }
+
   }
+
+
 
 
   componentDidMount() {
     console.log("componentDidMount <App />");
-    let socket = new WebSocket("ws://localhost:3001", "protocolOne"); 
-    this.socket = socket    
-    socket.onopen = function(event) {
+    this.socket = new WebSocket("ws://localhost:3001", "protocolOne"); 
+    this.socket.onopen = function(event) {
       console.log("Connected to server");
     }
 
