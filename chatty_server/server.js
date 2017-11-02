@@ -25,15 +25,6 @@ wss.on('connection', (ws) => {
 
   ws.on('message', (data) => {
     const message = JSON.parse(data);
-
-    // client sends
-    // {"type": "postMessage", "username": "Bob", "content": "New message"}
-    // server receives message above and then broadcasts this to all clients
-    // {"type": "incomingMessage", "id": "0b2635a4-82b0-4e49-803e-2b901be71cf6", "username": "Bob", "content": "Hi"}
-    // client sends
-    // {"type": "postNotification", "content": "UserA has changed their name to UserB."}
-    // server receives message above and then broadcasts this to all clients
-    // {"type": "incomingNotification", "content": "UserA has changed their name to UserB."}
     
     switch(message.type) {
       case "postMessage":
@@ -56,12 +47,6 @@ wss.on('connection', (ws) => {
         throw new Error("unknown event type " + message.type);
     }
 
-    // incomingMessage['id']=uuidv1();
-    // console.log(`User ${incomingMessage.username} said ${incomingMessage.content}`);
-    
-    // wss.clients.forEach(function(client) {
-    //   client.send(JSON.stringify(incomingMessage));
-    // });
 
   });
   
