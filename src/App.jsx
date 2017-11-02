@@ -6,7 +6,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: {name: "Bob"},
+      currentUser: {name: "Anonymous"},
       messages: [] // messages coming from the server will be stored here as they arrive
     };
   }
@@ -26,22 +26,14 @@ class App extends Component {
     );
   }
 
-  // updateMessageList = (msg) => {
-  //   console.log("updating msg list", msg)
-  //   const newMessages = this.state.messages.push(msg);
-  //     this.setState({messages: newMessages}); 
-  //   }
-
-
-  onMessageSaved = (newmsg) => {
+  onMessageSaved = (newmsg, newname) => {
     console.log("message saved", newmsg);
-    // console.log(this.state.messages);
-    let addUsername = {username: this.state.currentUser.name, content: newmsg}
-    this.socket.send(JSON.stringify(addUsername));
+    if(newname) {
+      this.socket.send(JSON.stringify({username: newname, content: newmsg}));
+    } else {
+      this.socket.send(JSON.stringify({username: this.state.currentUser.name, content: newmsg}));
+    }
   }
-
-
-
 
   componentDidMount() {
     console.log("componentDidMount <App />");
@@ -50,11 +42,16 @@ class App extends Component {
       console.log("Connected to server");
     }
 
-    this.socket.onmessage = (event) => {
-      let newData = JSON.parse(event.data);
+    this.socket.onmessage = (e) => {
+      let newData = JSON.parse(e.data);
       console.log('receive data', newData);
       this.setState({messages: this.state.messages.concat(newData)}); 
     }
+
+  }
+
+}
+export default App;
 
     // setTimeout(() => {
     //   console.log("Simulating incoming message");
@@ -65,8 +62,3 @@ class App extends Component {
     //   // Calling setState will trigger a call to render() in App and all child components.
     //   this.setState({messages: messages})
     // }, 100);
-  }
-
-}
-export default App;
-
