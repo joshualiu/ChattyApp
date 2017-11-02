@@ -6,6 +6,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      online: '',
       currentUser: {name: "Anonymous"},
       messages: [], // messages coming from the server will be stored here as they arrive
     };
@@ -18,6 +19,7 @@ class App extends Component {
       <div>
         <nav className="navbar">
           <a href="/" className="navbar-brand">Chatty</a>
+          <p id="online_users"><b>{ this.state.online }</b></p>
         </nav>
         <MessageList messages={ this.state.messages }/>
         <ChatBar currentUser={ this.state.currentUser } 
@@ -63,6 +65,9 @@ class App extends Component {
           this.setState({currentUser: {name: data.newname}});
           this.setState({messages: this.state.messages.concat(data)})
           // handle incoming notification
+          break;
+        case "online":
+          this.setState({online: data.content});
           break;
         default:
           // show an error in the console if the message type is unknown
