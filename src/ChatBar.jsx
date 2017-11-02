@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 class ChatBar extends Component {
 
   submitMessage = (event) => {
-    
-    if(event.key == 'Enter' && event.target.value != ''){
+    let checkEmptyMsg = event.target.value.replace(/[\s\r]/g, "").length
+    if(event.key == 'Enter' && checkEmptyMsg != 0){
       this.props.onMessageSaved(event.target.value, this.name)
       event.target.value= null;      
     }
@@ -13,7 +13,7 @@ class ChatBar extends Component {
     this.name = e.target.value;
   }
 
-  
+
   render() {
     console.log("Rendering <ChatBar/>");   
     return (
