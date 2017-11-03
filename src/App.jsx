@@ -31,6 +31,7 @@ class App extends Component {
 
   onNameSaved = (newname) => {
     console.log("on name saved", newname);
+    this.setState({currentUser: {name: newname}});
     this.socket.send(JSON.stringify({type: "postNotification", newname: newname, content: `${this.state.currentUser.name} has changed their name to ${newname}`}));
   }
 
@@ -62,7 +63,7 @@ class App extends Component {
           break;
         case "incomingNotification":
           console.log("incoming notification");
-          this.setState({currentUser: {name: data.newname}});
+          // this.setState({currentUser: {name: data.newname}});
           this.setState({messages: this.state.messages.concat(data)})
           // handle incoming notification
           break;
