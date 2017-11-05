@@ -7,6 +7,7 @@ class App extends Component {
     super(props);
     this.state = {
       online: '',
+      currentUserColor: 'Black',
       currentUser: {name: "Anonymous"},
       messages: [], // messages coming from the server will be stored here as they arrive
     };
@@ -21,7 +22,7 @@ class App extends Component {
           <a href="/" className="navbar-brand">Chatty</a>
           <p id="online_users"><b>{ this.state.online }</b></p>
         </nav>
-        <MessageList messages={ this.state.messages }/>
+        <MessageList messages={ this.state.messages } />
         <ChatBar currentUser={ this.state.currentUser } 
         onMessageSaved={ this.onMessageSaved }
         onNameSaved={ this.onNameSaved }/>
@@ -38,9 +39,9 @@ class App extends Component {
   onMessageSaved = (newmsg, newname) => {
     console.log("message saved", newname);
     if(newname) {
-      this.socket.send(JSON.stringify({type: "postMessage", username: newname, content: newmsg}));
+      this.socket.send(JSON.stringify({type: "postMessage", username: newname, content: newmsg, color: this.state.currentUserColor}));
     } else {
-      this.socket.send(JSON.stringify({type: "postMessage", username: "Anonymous", content: newmsg}));
+      this.socket.send(JSON.stringify({type: "postMessage", username: "Anonymous", content: newmsg, color: this.state.currentUserColor}));
     }
   }
 
@@ -69,6 +70,10 @@ class App extends Component {
           break;
         case "online":
           this.setState({online: data.content});
+          break;
+        case "color":
+          this.setState({currentUserColor: data.content});
+          console.log("set current user color:", data.content);
           break;
         default:
           // show an error in the console if the message type is unknown

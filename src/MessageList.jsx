@@ -12,7 +12,8 @@ class MessageList extends Component {
               return (<Message 
                 key={ item.id.toString() }
                 username={ item.username }
-                content={ item.content }/>) 
+                content={ item.content }
+                color = { item.color }/>) 
             } else if (item.type == "incomingNotification") {
               return (
                 <div className="message system">
