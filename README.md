@@ -3,8 +3,6 @@ Chatty App
 
 Chatty App allow users to communicate with each other without having to register accounts. It uses React, a popular front-end library created and used heavily by Facebook as well as modern tools for Node including Webpack and Babel.   
 
-Week5 day1- day5 at lighthouse labs.
-
 ### Functional information:
 
 * Primarily a client-side SPA (single-page app) built with ReactJS.  
